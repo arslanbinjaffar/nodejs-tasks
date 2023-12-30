@@ -17,12 +17,13 @@ exports.signUp = async (req,res) => {
             password,
             verified
         })
+        const user = await newUser.save();
         const secret=process.env.JWT_SCERET || ""
         const payload = {
             email,
             password,
         }
-        const token =await jwt.sign(payload, secret, { expiresIn: "1hr" })
+        const token = jwt.sign(payload, secret, { expiresIn: "1hr" })
         res.status(200).json({
             message: "signUp User successfully", success: true, result: true, data: {
                 id:newUser._id,verified,
